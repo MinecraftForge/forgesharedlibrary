@@ -1,6 +1,6 @@
 def call(build, filename) {
     def changelog = buildChangelog(build)
-    writeFile file: filename, text: changelog
+    writeFile file: filename, text: changelog, encoding: 'UTF-8'
 }
 
 def buildChangelog(build) {
