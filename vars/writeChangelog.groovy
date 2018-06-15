@@ -5,8 +5,8 @@ def call(build, filename) {
 
 def buildChangelog(build) {
     def changelog = []
-    changelog += "Build: ${currentBuild.number} - ${env.MYVERSION} - ${new Date(currentBuild.startTimeInMillis)}"
-    changelog = addChanges(currentBuild, changelog)
+    changelog += "Build: ${build.number} - ${build.buildVariables.MYVERSION?:"NOVERSION"} - ${new Date(build.startTimeInMillis)}"
+    changelog = addChanges(build, changelog)
     return changelog.join("\n")
 }
 
