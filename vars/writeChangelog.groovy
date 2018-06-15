@@ -1,3 +1,8 @@
+def call(build, filename) {
+    def changelog = buildChangelog(build)
+    writeFile: file: filename, text: changelog
+}
+
 def buildChangelog(build) {
     def changelog = []
     changelog += "Build: ${currentBuild.number} - ${env.MYVERSION} - ${new Date(currentBuild.startTimeInMillis)}"
