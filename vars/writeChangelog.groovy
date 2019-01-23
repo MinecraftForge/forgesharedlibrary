@@ -3,9 +3,19 @@ def call(build, filename) {
     writeFile file: filename, text: changelog, encoding: 'UTF-8'
 }
 
+def makeHeader(build) {
+    def ret = "Build: "
+    if (build.buildVariables.MYVERSION != null)
+        ret += build.buildVariables.MYVERSION
+    else
+        ret += build.number + " - NOVERSION"
+    ret += " - ${new Date(build.startTimeInMillis)}"
+    return ret
+}
+
 def buildChangelog(build) {
     def changelog = []
-    changelog += "Build: ${build.number} - ${build.buildVariables.MYVERSION?:"NOVERSION"} - ${new Date(build.startTimeInMillis)}"
+    changelog += makeHeader(build)
     changelog = addChanges(build, changelog)
     return changelog.join("\n")
 }
@@ -35,7 +45,7 @@ def addChanges(build, changelog) {
         if (next.result == 'SUCCESS')
         {
             changelog += "====="
-            changelog += "Build: ${next.number} - ${next.buildVariables.MYVERSION?:"NOVERSION"} - ${new Date(next.startTimeInMillis)}"
+            changelog += makeHeader(next)
         }
         changelog = addChanges(next, changelog)
     }
