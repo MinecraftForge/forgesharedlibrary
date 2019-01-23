@@ -13,13 +13,27 @@ def makeHeader(build) {
     return ret
 }
 
-def buildChangelog(build) {
+def buildChangelog(start) {
     def changelog = []
-    changelog += makeHeader(build)
-    changelog = addChanges(build, changelog)
+    def header = makeHeader(start)
+    def build = start
+    def changes = []
+    //Loop here to not need recursion in case we get massive build lists
+    while (build != null) {
+        changes = addChanges(build, changes)
+        build = build.previousBuild
+        if (build == null || build.result = 'SUCCESS') {
+            if (!changes.isEmpty()) {
+                changelog += header
+                changelog.addAll(changes)
+                changes = []
+            }
+            header = (build == null ? null : '=========\n' + makeHeader(build))
+        }
+    }
+    //changelog = addChanges(build, changelog)
     return changelog.join("\n")
 }
-
 
 def addChanges(build, changelog) {
     for (change in build.changeSets)
@@ -39,6 +53,7 @@ def addChanges(build, changelog) {
             }
         }
     }
+    /*
     next = build.previousBuild
     if (next != null)
     {
@@ -49,5 +64,6 @@ def addChanges(build, changelog) {
         }
         changelog = addChanges(next, changelog)
     }
+    */
     return changelog
 }
