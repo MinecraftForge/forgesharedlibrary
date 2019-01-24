@@ -22,7 +22,7 @@ def buildChangelog(start) {
     while (build != null) {
         changes = addChanges(build, changes)
         build = build.previousBuild
-        if (build == null || build.result = 'SUCCESS') {
+        if (build == null || build.result == 'SUCCESS') {
             if (!changes.isEmpty()) {
                 changelog += header
                 changelog.addAll(changes)
