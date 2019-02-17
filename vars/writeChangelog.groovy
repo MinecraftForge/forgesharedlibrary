@@ -40,14 +40,15 @@ def addChanges(build, changelog) {
     {
         for (chg in change?.items)
         {
-            if (!chg?.msg?.contains("\n"))
+            def msg = getMessage(chg)
+            if (!msg?.contains("\n"))
             {
                 changelog += "\t${chg.author.toString()}: ${chg.msg}"
             }
             else
             {
                 changelog += "\t${chg.author.toString()}:"
-                for (pt in chg?.msg?.split('\n'))
+                for (pt in msg?.split('\n'))
                     changelog += "\t\t${pt}"
                 changelog += ""
             }
@@ -66,4 +67,10 @@ def addChanges(build, changelog) {
     }
     */
     return changelog
+}
+
+def getMessage(change) {
+    if (change.metaClass.respondsTo(change, 'getComment') || change.metaClass.hasProperty(change, 'comment'))
+        return change.comment
+    return change.msg
 }
