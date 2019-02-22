@@ -26,8 +26,8 @@ def buildChangelog(start) {
                 changelog += header
                 changelog.addAll(changes)
                 changes = []
+                break
             }
-            break
         }
     }
     return changelog.join("\n")
