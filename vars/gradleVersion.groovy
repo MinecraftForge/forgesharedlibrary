@@ -1,3 +1,6 @@
+def call(Script script, String properties, String variable) {
+    call(script, properties, ["version": variable] as Map)
+}
 def call(Script script, String properties = "properties", Map variables = ["version":"MYVERSION", "group":"MYGROUP", "name": "MYARTIFACT"]) {
     def data = sh(returnStdout: true, script: "./gradlew ${properties} -q").trim().toString()
     def props = [:]
