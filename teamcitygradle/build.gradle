@@ -9,7 +9,7 @@ task("createChangelog") {
         def changesXML = new XmlSlurper().parse(teamCityURL + "guestAuth/app/rest/changes?locator=build:(id:" + teamcity["teamcity.build.id"] + ")")
 
         def changes = changesXML.change
-        out << "# ${project.modId} Changelog \n"
+        out << "# Changelog \n"
         out << "## Version: _" + version + "_ \n"
 
         if (changes.size() > 0) {
